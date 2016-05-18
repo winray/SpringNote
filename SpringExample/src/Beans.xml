@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
+
+   <!-- Initialization for data source -->
+   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="DriverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="JdbcUrl" value="jdbc:mysql://localhost:3306/moviebooking"/>
+        <property name="User" value="root"/>
+        <property name="Password" value=""/>
+        <!-- 其他优化参数 -->
+        <property name="minPoolSize" value="5"/>
+		<property name="maxPoolSize" value="30"/>
+		<property name="checkoutTimeout" value="1800"/>
+		<property name="maxStatements" value="20"/>
+    </bean>
+
+   <!-- Definition for studentJDBCTemplate bean -->
+   <bean id="studentJDBCTemplate" class="com.tutorialspoint.StudentJDBCTemplate">
+      <property name="dataSource" ref="dataSource" />    
+   </bean>
+      
+</beans>
