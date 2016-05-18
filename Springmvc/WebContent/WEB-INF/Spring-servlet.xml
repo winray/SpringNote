@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ http://www.springframework.org/schema/mvc
+ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- 自动扫描bean，把作了注解的类转换为bean -->
+    <context:component-scan base-package="com.tutorialspoint" />
+    <context:component-scan base-package="com.dao.jdbc" />
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/jsp/" />
+    <property name="suffix" value=".jsp" />
+    </bean>
+
+    <mvc:resources mapping="/pages/**" location="/WEB-INF/pages/" />
+    <mvc:annotation-driven/>
+    
+    <!-- 将静态文件指定到某个特殊的文件夹中统一处理 -->
+    <!-- 配置静态资源文件访问，springMVC中无法直接访问静态文件，需要映射成url来访问-->
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="DriverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="JdbcUrl" value="jdbc:mysql://localhost:3306/moviebooking"/>
+        <property name="User" value="root"/>
+        <property name="Password" value=""/>
+        <!-- 其他优化参数 -->
+        <property name="minPoolSize" value="5"/>
+		<property name="maxPoolSize" value="30"/>
+		<property name="checkoutTimeout" value="1800"/>
+		<property name="maxStatements" value="20"/>
+    </bean>
+
+</beans>
